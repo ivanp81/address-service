@@ -3,18 +3,14 @@ podTemplate(label: 'testing',
     containerTemplate(name: 'mongodb', image: 'mongo:3.0', envVars: [
       envVar(key: 'MONGODB_ROOT_USERNAME', value: 'root'),
       envVar(key: 'MONGODB_ROOT_PASSWORD', value: 'root'),
-      envVar(key: 'MONGODB_ADDRESS_PASSWORD', value: 'root')
+      envVar(key: 'MONGODB_ADDRESS_PASSWORD', value: 'address')
     ]),
     containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat')
   ],
   volumes: [
     hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')
-  ],
-  envVars: [
-    secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME'),
-    secretEnvVar(key: 'DOCKERHUB_PASSWORD', secretName: 'dockerhub-password-secret', secretKey: 'PASSWORD'),
-  ])
+  ]
 {
   node ('testing') {
     def image_name = "address"
@@ -26,7 +22,7 @@ podTemplate(label: 'testing',
         git url: 'https://github.com/ivanp81/address-service.git', branch: "${GIT_BRANCH}"
       }
 
-      stage('Run Unit/Integration Tests, generate the jar artifact and push it to Artifactory') {
+      stage('Run Unit/Integration Tests') {
         container('maven') {
           sh 'mvn clean verify'
         }
