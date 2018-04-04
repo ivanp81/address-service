@@ -1,0 +1,33 @@
+# Set the base image to java8
+FROM openjdk:8-alpine
+
+# Add bash 
+RUN /bin/sh -c "apk add --no-cache bash"
+
+# Define default environment variables
+ENV ADDRESS_HOME=/opt/address
+ENV ADDRESS_BINARIES=/opt/address/bin
+ENV ADDRESS_LOGGING_CONFIG=/opt/address/logs
+
+# Create directory
+RUN mkdir -p $ADDRESS_BINARIES
+RUN mkdir -p $ADDRESS_LOGGING_CONFIG
+
+# Set default directory
+WORKDIR $ADDRESS_HOME
+
+# Copy address-service jar file
+COPY target/*.jar $ADDRESS_HOME/address.jar
+COPY logs/logback-spring.xml $ADDRESS_LOGGING_CONFIG/logback-spring.xml
+
+# Add initialization script
+ADD entrypoint.sh $ADDRESS_BINARIES/entrypoint.sh
+
+# Give permissions
+RUN chmod 755 $ADDRESS_BINARIES/entrypoint.sh
+
+# Expose default servlet container port
+EXPOSE 8080
+
+# Main command
+ENTRYPOINT ["/bin/sh", "/opt/address/bin/entrypoint.sh"]

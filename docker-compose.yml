@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+    
+  address: 
+    container_name: address
+    environment: 
+      - SPRING_PROFILES_ACTIVE=$SPRING_PROFILES_ACTIVE
+      - MONGODB_ADDRESS_PASSWORD=$MONGODB_ADDRESS_PASSWORD
+    image: ivanp81/address
+    depends_on: 
+      - address-mongodb
+       
+  address-mongodb:
+    container_name: address-mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD
+      - MONGODB_ADDRESS_PASSWORD=$MONGODB_ADDRESS_PASSWORD
+    image: ivanp81/address-mongodb
+    command: mongod --smallfiles

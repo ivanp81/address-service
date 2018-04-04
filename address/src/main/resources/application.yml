@@ -1,0 +1,52 @@
+spring.profiles.active: test
+
+---
+
+spring:
+  profiles: dev
+  data:
+    mongodb:
+      host: localhost
+      database: address
+      port: 27017
+      
+--- 
+
+test_mongodb_host: ${TEST_MONGODB_HOST:localhost}
+
+spring:
+  profiles: test
+  data:
+    mongodb:
+      host: ${test_mongodb_host}
+      database: address
+      port: 27017
+    
+---
+
+spring:
+  profiles: testing
+  data:
+    mongodb: 
+      host: address-mongodb
+      username: address
+      password: ${MONGODB_ADDRESS_PASSWORD}
+      database: address
+      port: 27017
+    
+logging.config: logs/logback-spring.xml
+
+---
+
+spring:
+  profiles: prod
+  data:
+    mongodb: 
+      host: address-mongodb
+      username: address
+      password: ${MONGODB_ADDRESS_PASSWORD}
+      database: address
+      port: 27017
+    
+logging.config: logs/logback-spring.xml
+ 

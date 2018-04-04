@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+                
+  address:
+     build: 
+      context: ./address
+     ports: 
+      - 8080:8080
+
+  address-mongodb: 
+    build: 
+      context: ./mongodb
+    ports:
+      - 27017:27017
