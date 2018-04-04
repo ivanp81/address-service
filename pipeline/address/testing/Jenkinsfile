@@ -10,7 +10,7 @@ podTemplate(label: 'testing',
   ],
   volumes: [
     hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')
-  ]
+  ])
 {
   node ('testing') {
     def image_name = "address"
