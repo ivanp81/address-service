@@ -1,19 +1,11 @@
-{
-  node ('testing') {
 
-    checkout scm
+node {
 
-    dir('app') {
-      
-      stage('Checkout the address-service application') {
-        git url: 'https://github.com/ivanp81/address-service.git', branch: "${GIT_BRANCH}"
-      }
+  checkout scm
 
-      stage('Run Unit/Integration Tests, generate the jar artifact and push it to Artifactory') {
-        container('maven') {
-          sh 'mvn clean verify'
-        }
-      }
-    }
+  stage('Checkout the address-service application') {
+  	git url: 'https://github.com/ivanp81/address-service.git', branch: "${GIT_BRANCH}"
   }
+
 }
+
