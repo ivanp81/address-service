@@ -1,10 +1,5 @@
 podTemplate(label: 'testing', 
   containers: [
-    containerTemplate(name: 'mongodb', image: 'mongo:3.0', envVars: [
-      envVar(key: 'MONGODB_ROOT_USERNAME', value: 'root'),
-      envVar(key: 'MONGODB_ROOT_PASSWORD', value: 'root'),
-      envVar(key: 'MONGODB_ADDRESS_PASSWORD', value: 'address')
-    ]),
     containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat')
   ],
