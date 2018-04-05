@@ -1,44 +1,43 @@
-
 node {
     
-  stage('Checkout the address-service application') {
-  	git url: 'https://github.com/ivanp81/address-service.git', branch: "${GIT_BRANCH}"
-  }
+	stage('Checkout the address-service application') {
+		git url: 'https://github.com/ivanp81/address-service.git', branch: "${GIT_BRANCH}"
+	}
   
-  stage ('Run Unit/Integration test') {
-    docker.image('maven:3').inside() {
-        sh 'mvn clean package'
-    }
-  }
+	stage ('Run Unit/Integration test') {
+		docker.image('maven:3').inside() {
+			sh 'mvn clean package'
+		}
+	}
   
-  stage('Destroy the Testing environment if it exists') {
-  	sh """
-    	docker-compose stop
-        docker-compose rm --force
-    """
-  }
+	stage('Destroy the Testing environment if it exists') {
+		sh """
+    		docker-compose stop
+        	docker-compose rm --force
+		"""
+	}
     
-  stage('Start a new Testing environment') {      
-  	sh """
-    	export SPRING_PROFILES_ACTIVE=testing
-        export MONGODB_ADDRESS_PASSWORD=address
-        export MONGODB_ROOT_USERNAME=root
-        export MONGODB_ROOT_PASSWORD=root
+	stage('Start a new Testing environment') {      
+		sh """
+    		export SPRING_PROFILES_ACTIVE=testing
+        	export MONGODB_ADDRESS_PASSWORD=address
+        	export MONGODB_ROOT_USERNAME=root
+        	export MONGODB_ROOT_PASSWORD=root
 
-        docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build 
-    """
-  }
+        	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build 
+		"""
+	}
     
-  stage('Run Acceptance Tests') {
-  	docker.image('maven:3').inside("--link address:address --net addressservicetest_default") {
-    	sh 'mvn clean verify -Pacceptance-tests -Dacceptance.address.url=http://address:8080'
-    }
-  }
+	stage('Run Acceptance Tests') {
+		docker.image('maven:3').inside("--link address:address --net addressservicetest_default") {
+			sh 'mvn clean verify -Pacceptance-tests -Dacceptance.address.url=http://address:8080'
+		}
+	}
     
-  stage('Destroy the Testing environment') {
-  	sh """
-    	docker-compose stop
-        docker-compose rm --force
-    """
-  }
+	stage('Destroy the Testing environment') {
+		sh """
+    		docker-compose stop
+        	docker-compose rm --force
+		"""
+	}
 }
