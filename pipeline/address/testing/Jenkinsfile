@@ -13,7 +13,7 @@ node {
   */
   stage('Destroy the Testing environment if it exists') {
       
-        sh 'docker-compose rm'
+        sh 'docker -v'
       
     }
 
