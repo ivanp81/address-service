@@ -6,10 +6,16 @@ node {
   stage('Checkout the address-service application') {
   	git url: 'https://github.com/ivanp81/address-service.git', branch: "${GIT_BRANCH}"
   }
-  
+  /*
   stage ('Run Unit/Integration test') {
     sh 'mvn clean verify'
   }
+  */
+  stage('Destroy the Testing environment if it exists') {
+      
+        sh 'docker-compose rm'
+      
+    }
 
 }
 
