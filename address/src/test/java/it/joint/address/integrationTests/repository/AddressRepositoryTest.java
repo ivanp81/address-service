@@ -3,7 +3,6 @@ package it.joint.address.integrationTests.repository;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,37 +27,23 @@ public class AddressRepositoryTest {
 	
 	private AddressResponse expectedResponse;
 	
+	private String validPostCode = "XX200X";
+	
     @Before
     public void setUp() {
+    	expectedResponse = new AddressResponse.Builder()
+				  .withPostCode(validPostCode)
+				  .withLatitude(51.39020538330078)
+				  .withLongitude(-0.1320359706878662).build();
+    	
     	addressRepository.deleteAll();
-    	expectedResponse = createEntity();
-    }
-    
-    @After
-    public void tearDown() {
-    	
-    }
-    
-    public static AddressResponse createEntity() {
-    	
-    	AddressResponse.Builder addressResponse = new AddressResponse.Builder();
-		
-		return addressResponse
-			  .withPostCode("XX200X")
-			  .build();
+    	addressRepository.save(expectedResponse);
     }
 
 	@Test
 	public void givenValidPostCode_whenFindByPostCode_thenActualResponseIsExpectedResponse() throws Exception {
-
-		String validPostCode = "XX200X";
-		
-		addressRepository.save(expectedResponse);
-		
+	
 		AddressResponse actualResponse = addressRepository.findByPostCode(validPostCode);
 		assertThat(actualResponse, is(expectedResponse));
-		
-		addressRepository.deleteAll();
 	}
-
 }

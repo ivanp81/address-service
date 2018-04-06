@@ -4,21 +4,21 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
+import static org.mockito.MockitoAnnotations.initMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import it.joint.address.api.AddressController;
 import it.joint.address.domain.model.AddressResponse;
 import it.joint.address.domain.repository.AddressRepository;
 import it.joint.address.util.TestUtil;
 
-import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,38 +36,26 @@ public class AddressControllerTest {
     
     private AddressResponse expectedResponse;
 	
+    String validPostCode = "XX200X";
+	
     @Before
     public void setUp() {
-
-        MockitoAnnotations.initMocks(this);
-    	
-        expectedResponse = createEntity();
-    	
-        given(addressRepository.findByPostCode(expectedResponse.getPostCode()))
-       .willReturn(expectedResponse);
+        initMocks(this);
+        expectedResponse = new AddressResponse.Builder()
+				  .withPostCode(validPostCode)
+				  .withLatitude(51.39020538330078)
+				  .withLongitude(-0.1320359706878662).build();
     }
-    
-    public static AddressResponse createEntity() {
-    	
-    	AddressResponse.Builder addressResponse = new AddressResponse.Builder();
-		
-		return addressResponse
-			  .withPostCode("XX200X")
-			  .build();
-    }
-    
+        
     @Test
-    public void givenValidPostCode_whenGetFindUrl_thenStatusCodeIsOkAndContentIsExpectedResponse() throws Exception {
+    public void givenValidPostCode_whenGetFindUrl_thenReturnAddressResponse() throws Exception {
 
-    	String validPostCode = "XX200X";
-		
-        String findUrl = UriComponentsBuilder
-        			     .fromPath("/find/{postcode}")
-				 		 .buildAndExpand(validPostCode)
-				 		 .toString();
+    	doReturn(expectedResponse).when(addressRepository).findByPostCode(validPostCode);
 
-        mvc.perform(get(findUrl))
+        mvc.perform(get("/find/" + validPostCode))
             .andExpect(status().isOk())
             .andExpect(content().string(TestUtil.convertObjectToJsonString(expectedResponse)));
+        
+        verify(addressRepository).findByPostCode(validPostCode);
     }    
 }

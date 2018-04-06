@@ -3,19 +3,21 @@ package it.joint.address.domain.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.List;
 
+@SuppressWarnings("serial")
 @Document(collection = "addresses")
-public class AddressResponse {
+public class AddressResponse implements Serializable {
 
 	@Id
 	private String id;
 
 	private String postCode;
 	
-	private String latitude;
+	private Double latitude;
 	
-	private String longitude;
+	private Double longitude;
 	
 	private List<Address> addresses;
 
@@ -35,19 +37,19 @@ public class AddressResponse {
 		this.postCode = postCode;
 	}
 
-	public String getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(String latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
-	public String getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(String longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 
@@ -68,22 +70,22 @@ public class AddressResponse {
 
 		AddressResponse other = (AddressResponse) o;
 		
-		if (!this.id.equals(other.id))
+		if (!this.postCode.equals(other.postCode))
 			return false;
 
 		return true;
 	}
 
 	public int hashCode() {
-		return id.hashCode();
+		return postCode.hashCode();
 	}
 
 	public static class Builder {
 
 		private String id;
 		private String postCode;
-    	private String latitude;
-    	private String longitude;
+    	private Double latitude;
+    	private Double longitude;
     	private List<Address> addresses;
 
         public Builder() {
@@ -100,12 +102,12 @@ public class AddressResponse {
             return this; 
         }
         
-        public Builder withLatitude(String latitude){
+        public Builder withLatitude(Double latitude){
             this.latitude = latitude;
             return this; 
         }
 
-        public Builder withLongitude(String longitude){
+        public Builder withLongitude(Double longitude){
             this.longitude = longitude;
             return this; 
         }

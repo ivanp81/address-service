@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -34,34 +33,24 @@ public class AddressComponentTest {
 		
 	private AddressResponse expectedResponse;
 		
+	private String validPostCode = "XX200X";
+	
     @Before
     public void setUp() {
     	
+    	expectedResponse = new AddressResponse.Builder()
+				  .withPostCode(validPostCode)
+				  .withLatitude(51.39020538330078)
+				  .withLongitude(-0.1320359706878662).build();
+  	
     	addressRepository.deleteAll();
-    	expectedResponse = createEntity();
+    	addressRepository.save(expectedResponse);
     }
     
-    public static AddressResponse createEntity() {
-    	
-    	AddressResponse.Builder addressResponse = new AddressResponse.Builder();
-		return addressResponse
-			  .withPostCode("XX200X")
-			  .build();
-    }
-
 	@Test
-	public void givenValidPostCode_whenGetFindUrl_thenStatusCodeIs200AndBodyIsExpectedResponse() throws Exception {
+	public void givenValidPostCode_whenGetFindUrl_thenReturnAddressResponse() throws Exception {
 
-		addressRepository.save(expectedResponse);
-
-		String validPostCode = "XX200X";
-		
-		String findUrl = UriComponentsBuilder
-			     .fromPath("/find/{postcode}")
-		 		 .buildAndExpand(validPostCode)
-		 		 .toString();
-
-		mvc.perform(get(findUrl))
+		mvc.perform(get("/find/" + validPostCode))
 		   .andExpect(status().isOk())
 		   .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 		   .andExpect(content().string(TestUtil.convertObjectToJsonString(expectedResponse)));
