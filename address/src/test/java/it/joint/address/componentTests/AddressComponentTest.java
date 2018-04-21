@@ -25,34 +25,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 public class AddressComponentTest {
 
-	@Autowired
+    @Autowired
     private MockMvc mvc;
-	
-	@Autowired
-	private AddressRepository addressRepository;
-		
-	private AddressResponse expectedResponse;
-		
-	private String validPostCode = "XX200X";
-	
+
+    @Autowired
+    private AddressRepository addressRepository;
+
+    private AddressResponse expectedResponse;
+
+    private String validPostCode = "XX200X";
+
     @Before
     public void setUp() {
-    	
-    	expectedResponse = new AddressResponse.Builder()
-				  .withPostCode(validPostCode)
-				  .withLatitude(51.39020538330078)
-				  .withLongitude(-0.1320359706878662).build();
-  	
-    	addressRepository.deleteAll();
-    	addressRepository.save(expectedResponse);
-    }
-    
-	@Test
-	public void givenValidPostCode_whenGetFindUrl_thenReturnAddressResponse() throws Exception {
 
-		mvc.perform(get("/find/" + validPostCode))
-		   .andExpect(status().isOk())
-		   .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-		   .andExpect(content().string(TestUtil.convertObjectToJsonString(expectedResponse)));
-	}
+	expectedResponse = new AddressResponse.Builder().withPostCode(validPostCode).withLatitude(51.39020538330078)
+		.withLongitude(-0.1320359706878662).build();
+
+	addressRepository.deleteAll();
+	addressRepository.save(expectedResponse);
+    }
+
+    @Test
+    public void givenValidPostCode_whenGetFindUrl_thenReturnAddressResponse() throws Exception {
+
+	mvc.perform(get("/find/" + validPostCode)).andExpect(status().isOk())
+		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+		.andExpect(content().string(TestUtil.convertObjectToJsonString(expectedResponse)));
+    }
 }

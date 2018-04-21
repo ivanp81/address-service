@@ -1,4 +1,4 @@
-spring.profiles.active: test
+spring.profiles.active: dev
 
 ---
 
@@ -34,8 +34,6 @@ spring:
       database: address
       port: 27017
     
-logging.config: logs/logback-spring.xml
-
 ---
 
 spring:
@@ -48,5 +46,4 @@ spring:
       database: address
       port: 27017
     
-logging.config: logs/logback-spring.xml
  

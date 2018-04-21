@@ -7,7 +7,6 @@ RUN /bin/sh -c "apk add --no-cache bash"
 # Define default environment variables
 ENV ADDRESS_HOME=/opt/address
 ENV ADDRESS_BINARIES=/opt/address/bin
-ENV ADDRESS_LOGGING_CONFIG=/opt/address/logs
 
 # Create directory
 RUN mkdir -p $ADDRESS_BINARIES
@@ -18,7 +17,6 @@ WORKDIR $ADDRESS_HOME
 
 # Copy address-service jar file
 COPY target/*.jar $ADDRESS_HOME/address.jar
-COPY logs/logback-spring.xml $ADDRESS_LOGGING_CONFIG/logback-spring.xml
 
 # Add initialization script
 ADD entrypoint.sh $ADDRESS_BINARIES/entrypoint.sh

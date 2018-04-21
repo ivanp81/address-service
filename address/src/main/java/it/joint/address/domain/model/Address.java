@@ -6,84 +6,84 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "addresses")
 public class Address {
 
-	@Id
-	private String id;
+    @Id
+    private String id;
 
-	private String line1;
-	
-	private String line2;
-	
-	private String line3;
-	
-	private String line4;
+    private String line1;
 
-	private String locality;
-	
-	private String city;
-	
-	private String country;
+    private String line2;
 
-	public String getId() {
-		return id;
-	}
+    private String line3;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    private String line4;
 
-	public String getLine1() {
-		return line1;
-	}
+    private String locality;
 
-	public void setLine1(String line1) {
-		this.line1 = line1;
-	}
+    private String city;
 
-	public String getLine2() {
-		return line2;
-	}
+    private String country;
 
-	public void setLine2(String line2) {
-		this.line2 = line2;
-	}
+    public String getId() {
+	return id;
+    }
 
-	public String getLine3() {
-		return line3;
-	}
+    public void setId(String id) {
+	this.id = id;
+    }
 
-	public void setLine3(String line3) {
-		this.line3 = line3;
-	}
+    public String getLine1() {
+	return line1;
+    }
 
-	public String getLine4() {
-		return line4;
-	}
+    public void setLine1(String line1) {
+	this.line1 = line1;
+    }
 
-	public void setLine4(String line4) {
-		this.line4 = line4;
-	}
+    public String getLine2() {
+	return line2;
+    }
 
-	public String getLocality() {
-		return locality;
-	}
+    public void setLine2(String line2) {
+	this.line2 = line2;
+    }
 
-	public void setLocality(String locality) {
-		this.locality = locality;
-	}
+    public String getLine3() {
+	return line3;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public void setLine3(String line3) {
+	this.line3 = line3;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public String getLine4() {
+	return line4;
+    }
 
-	public String getCountry() {
-		return country;
-	}
+    public void setLine4(String line4) {
+	this.line4 = line4;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public String getLocality() {
+	return locality;
+    }
+
+    public void setLocality(String locality) {
+	this.locality = locality;
+    }
+
+    public String getCity() {
+	return city;
+    }
+
+    public void setCity(String city) {
+	this.city = city;
+    }
+
+    public String getCountry() {
+	return country;
+    }
+
+    public void setCountry(String country) {
+	this.country = country;
+    }
 }

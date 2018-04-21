@@ -27,35 +27,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(AddressController.class)
 @ActiveProfiles("test")
 public class AddressControllerTest {
-	
-	@Autowired
+
+    @Autowired
     private MockMvc mvc;
 
-	@MockBean
+    @MockBean
     private AddressRepository addressRepository;
-    
+
     private AddressResponse expectedResponse;
-	
+
     String validPostCode = "XX200X";
-	
+
     @Before
     public void setUp() {
-        initMocks(this);
-        expectedResponse = new AddressResponse.Builder()
-				  .withPostCode(validPostCode)
-				  .withLatitude(51.39020538330078)
-				  .withLongitude(-0.1320359706878662).build();
+	initMocks(this);
+	expectedResponse = new AddressResponse.Builder().withPostCode(validPostCode).withLatitude(51.39020538330078)
+		.withLongitude(-0.1320359706878662).build();
     }
-        
+
     @Test
     public void givenValidPostCode_whenGetFindUrl_thenReturnAddressResponse() throws Exception {
 
-    	doReturn(expectedResponse).when(addressRepository).findByPostCode(validPostCode);
+	doReturn(expectedResponse).when(addressRepository).findByPostCode(validPostCode);
 
-        mvc.perform(get("/find/" + validPostCode))
-            .andExpect(status().isOk())
-            .andExpect(content().string(TestUtil.convertObjectToJsonString(expectedResponse)));
-        
-        verify(addressRepository).findByPostCode(validPostCode);
-    }    
+	mvc.perform(get("/find/" + validPostCode)).andExpect(status().isOk())
+		.andExpect(content().string(TestUtil.convertObjectToJsonString(expectedResponse)));
+
+	verify(addressRepository).findByPostCode(validPostCode);
+    }
 }

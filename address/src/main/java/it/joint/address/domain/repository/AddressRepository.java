@@ -9,6 +9,6 @@ import it.joint.address.domain.model.AddressResponse;
 @Repository
 public interface AddressRepository extends MongoRepository<AddressResponse, String> {
 
-	AddressResponse findByPostCode(String postCode);
+    AddressResponse findByPostCode(String postCode);
 
 }
