@@ -24,6 +24,7 @@ $ mvn verify -Pacceptance-tests -Dacceptance.advertise.url=URL_TO_ADVERTISE_TEST
 
 ## Build the project
 
+#### Build executable application	
 ```
 $ mvn clean package
 ```
@@ -51,6 +52,4 @@ $ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 $ docker-compose up
 ```
 ## Pipeline
-
-# Feedback welcome
-As this is a proof-of-concept mistake and miserunderstunding are possible. Every type of feedback is welcome to improve it.  
+TODO
