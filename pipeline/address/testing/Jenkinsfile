@@ -6,7 +6,7 @@ node {
   
 	stage ('Run Unit/Integration test') {
 		docker.image('maven:3').inside() {
-			sh 'mvn clean package'
+			sh 'mvn clean verify'
 		}
 	}
   
